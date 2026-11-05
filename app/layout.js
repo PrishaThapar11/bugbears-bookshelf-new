@@ -16,7 +16,7 @@ const badScript = Bad_Script({ subsets: ['latin'], weight: '400', variable: '--f
 const dancing = Dancing_Script({ subsets: ['latin'], variable: '--font-dancing', display: 'swap' });
 
 export const metadata = {
-  metadataBase: new URL('https://bugbears-bookshelf.vercel.app'), // change once you have your real URL
+    metadataBase: new URL('https://bugbears-bookshelf-new.vercel.app'),
   title: {
     default: "Bugbear's Bookshelf",
     template: "%s | Bugbear's Bookshelf",
