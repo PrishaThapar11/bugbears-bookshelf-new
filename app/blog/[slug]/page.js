@@ -1,15 +1,21 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getAllPosts, getPostBySlug, formatDate } from '../../../lib/posts';
+import {
+  getAllPosts,
+  getPostBySlug,
+  formatDate,
+  getParagraphs,
+} from '../../../lib/posts';
 
-// Tells Next which pages to build ahead of time
-export function generateStaticParams() {
-  return getAllPosts().map((p) => ({ slug: p.slug }));
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const posts = await getAllPosts();
+  return posts.map((p) => ({ slug: p.slug }));
 }
 
-// Per-post <title>, description and link preview (this is your SEO base)
-export function generateMetadata({ params }) {
-  const post = getPostBySlug(params.slug);
+export async function generateMetadata({ params }) {
+  const post = await getPostBySlug(params.slug);
   if (!post) return {};
   return {
     title: post.title,
@@ -18,14 +24,14 @@ export function generateMetadata({ params }) {
       title: post.title,
       description: post.excerpt,
       type: 'article',
-      publishedTime: post.date,
+      publishedTime: post.published_on,
       images: [post.cover],
     },
   };
 }
 
-export default function PostPage({ params }) {
-  const post = getPostBySlug(params.slug);
+export default async function PostPage({ params }) {
+  const post = await getPostBySlug(params.slug);
   if (!post) notFound();
 
   return (
@@ -33,11 +39,11 @@ export default function PostPage({ params }) {
       <article className="post">
         <h1>{post.title}</h1>
         <p className="post-meta">
-          {formatDate(post.date)} | By Prisha Thapar | Type: {post.type}
+          {formatDate(post.published_on)} | By Prisha Thapar | Type: {post.type}
         </p>
 
         <div className="post__body">
-          {post.body.map((para, i) => (
+          {getParagraphs(post.body).map((para, i) => (
             <p key={i}>{para}</p>
           ))}
         </div>

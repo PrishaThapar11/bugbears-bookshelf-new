@@ -2,13 +2,15 @@ import { FaFeatherPointed } from 'react-icons/fa6';
 import { getAllPosts } from '../../lib/posts';
 import PostCard from '../../components/PostCard';
 
+export const revalidate = 60;
+
 export const metadata = {
   title: 'Blogs',
   description: 'Recent reads and ramblings: book reviews, tech musings and personal reflections.',
 };
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+export default async function BlogPage() {
+  const posts = await getAllPosts();
 
   return (
     <div className="has-bg" style={{ '--bg': "url('/images/blog-list.jpg')" }}>

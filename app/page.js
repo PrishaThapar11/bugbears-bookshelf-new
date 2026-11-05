@@ -2,8 +2,10 @@ import Link from 'next/link';
 import { FaMugHot } from 'react-icons/fa6';
 import { getFeaturedPost } from '../lib/posts';
 
-export default function Home() {
-  const post = getFeaturedPost();
+export const revalidate = 60;
+
+export default async function Home() {
+  const post = await getFeaturedPost();
 
   return (
     <div className="has-bg" style={{ '--bg': "url('/images/home.jpg')" }}>
@@ -14,14 +16,16 @@ export default function Home() {
             Happy Reading <FaMugHot />
           </p>
 
-          <div className="featured">
-            <h2>Featured Post: {post.title}</h2>
-            <p>{post.excerpt}</p>
-            <div className="featured__buttons">
-              <Link href={`/blog/${post.slug}`} className="btn">Read More</Link>
-              <Link href="/blog" className="btn">Explore Blogs</Link>
+          {post && (
+            <div className="featured">
+              <h2>Featured Post: {post.title}</h2>
+              <p>{post.excerpt}</p>
+              <div className="featured__buttons">
+                <Link href={`/blog/${post.slug}`} className="btn">Read More</Link>
+                <Link href="/blog" className="btn">Explore Blogs</Link>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
     </div>
