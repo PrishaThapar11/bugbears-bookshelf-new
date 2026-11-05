@@ -1,0 +1,27 @@
+import { FaFeatherPointed } from 'react-icons/fa6';
+import { getAllPosts } from '../../lib/posts';
+import PostCard from '../../components/PostCard';
+
+export const metadata = {
+  title: 'Blogs',
+  description: 'Recent reads and ramblings: book reviews, tech musings and personal reflections.',
+};
+
+export default function BlogPage() {
+  const posts = getAllPosts();
+
+  return (
+    <div className="has-bg" style={{ '--bg': "url('/images/blog-list.jpg')" }}>
+      <section className="container">
+        <h1 className="page-title">
+          <FaFeatherPointed /> Recent Reads and Ramblings <FaFeatherPointed />
+        </h1>
+        <div className="post-grid">
+          {posts.map((post) => (
+            <PostCard key={post.slug} post={post} />
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
