@@ -8,6 +8,7 @@ import {
 } from 'next/font/google';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { SITE_URL, SITE_NAME } from '../lib/site';
 
 const playfair = Playfair_Display({ subsets: ['latin'], style: ['normal', 'italic'], variable: '--font-playfair', display: 'swap' });
 const satisfy = Satisfy({ subsets: ['latin'], weight: '400', variable: '--font-satisfy', display: 'swap' });
@@ -15,13 +16,31 @@ const homemade = Homemade_Apple({ subsets: ['latin'], weight: '400', variable: '
 const badScript = Bad_Script({ subsets: ['latin'], weight: '400', variable: '--font-badscript', display: 'swap' });
 const dancing = Dancing_Script({ subsets: ['latin'], variable: '--font-dancing', display: 'swap' });
 
+const DESCRIPTION =
+  'Book reviews, essays and little life lessons from a cozy corner of the internet.';
+
 export const metadata = {
-    metadataBase: new URL('https://bugbears-bookshelf-new.vercel.app'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Bugbear's Bookshelf",
-    template: "%s | Bugbear's Bookshelf",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: 'Book reviews, essays and little life lessons from a cozy corner of the internet.',
+  description: DESCRIPTION,
+  openGraph: {
+    type: 'website',
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    locale: 'en_IN',
+    images: ['/images/home.jpg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_NAME,
+    description: DESCRIPTION,
+    images: ['/images/home.jpg'],
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -47,4 +66,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-
