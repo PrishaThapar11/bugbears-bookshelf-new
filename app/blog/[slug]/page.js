@@ -8,7 +8,7 @@ import {
 } from '../../../lib/posts';
 import { getApprovedComments } from '../../../lib/comments';
 import CommentForm from '../../../components/CommentForm';
-import { SITE_URL, SITE_NAME, AUTHOR } from '../../../lib/site';
+import { SITE_URL, SITE_NAME, AUTHOR, ogImage, shorten } from '../../../lib/site';
 
 export const revalidate = 60;
 
@@ -22,25 +22,28 @@ export async function generateMetadata({ params }) {
   if (!post) return {};
 
   const url = `/blog/${post.slug}`;
+  const description = shorten(post.excerpt);
+  const image = ogImage(post.cover);
+
   return {
     title: post.title,
-    description: post.excerpt,
+    description,
     alternates: { canonical: url },
     openGraph: {
       type: 'article',
       url,
       siteName: SITE_NAME,
       title: post.title,
-      description: post.excerpt,
+      description,
       publishedTime: post.published_on,
       authors: [AUTHOR],
-      images: [post.cover],
+      images: [{ url: image, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
-      description: post.excerpt,
-      images: [post.cover],
+      description,
+      images: [image],
     },
   };
 }
@@ -55,8 +58,8 @@ export default async function PostPage({ params }) {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.title,
-    description: post.excerpt,
-    image: `${SITE_URL}${post.cover}`,
+    description: shorten(post.excerpt),
+    image: `${SITE_URL}${ogImage(post.cover)}`,
     datePublished: post.published_on,
     author: { '@type': 'Person', name: AUTHOR },
     publisher: { '@type': 'Organization', name: SITE_NAME },

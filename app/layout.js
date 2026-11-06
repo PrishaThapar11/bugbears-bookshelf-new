@@ -18,28 +18,38 @@ const dancing = Dancing_Script({ subsets: ['latin'], variable: '--font-dancing',
 
 const DESCRIPTION =
   'Book reviews, essays and little life lessons from a cozy corner of the internet.';
+const HOME_TITLE = `${SITE_NAME} | Book reviews, essays and reflections`;
+const SHARE_IMAGE = {
+  url: '/og/home.jpg',
+  width: 1200,
+  height: 630,
+  alt: SITE_NAME,
+};
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: SITE_NAME,
+    default: HOME_TITLE,
     template: `%s | ${SITE_NAME}`,
   },
   description: DESCRIPTION,
+  verification: {
+    google: 'nGeOhCMagRHqsexnW0MMg4dj-pPvKewzbyfg0OU-qWM',
+  },
   openGraph: {
     type: 'website',
     siteName: SITE_NAME,
-    title: SITE_NAME,
+    title: HOME_TITLE,
     description: DESCRIPTION,
     url: SITE_URL,
     locale: 'en_IN',
-    images: ['/images/home.jpg'],
+    images: [SHARE_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
-    title: SITE_NAME,
+    title: HOME_TITLE,
     description: DESCRIPTION,
-    images: ['/images/home.jpg'],
+    images: ['/og/home.jpg'],
   },
 };
 
