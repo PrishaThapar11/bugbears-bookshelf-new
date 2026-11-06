@@ -8,7 +8,13 @@ export const metadata = {
 };
 
 export default async function AdminLayout({ children }) {
-  await requireAdmin();
+  const { supabase } = await requireAdmin();
+
+  const since = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
+  const { count } = await supabase
+    .from('comments')
+    .select('id', { count: 'exact', head: true })
+    .gte('created_at', since);
 
   return (
     <div className="admin">
@@ -17,6 +23,9 @@ export default async function AdminLayout({ children }) {
           <nav className="admin__nav">
             <Link href="/admin">All posts</Link>
             <Link href="/admin/new">+ New post</Link>
+            <Link href="/admin/comments">
+              Comments{count ? ` (${count} in last 3 days)` : ''}
+            </Link>
             <Link href="/">View site</Link>
           </nav>
           <form action={logout}>

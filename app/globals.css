@@ -427,3 +427,75 @@ img { max-width: 100%; height: auto; }
   border-radius: 5px;
   margin-bottom: var(--space-3);
 }
+/* ============ COMMENTS ============ */
+.comments {
+  margin: var(--space-5) 0 var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(58, 44, 44, 0.3);
+  color: var(--color-ink);
+}
+
+.comments h2,
+.comments h3 {
+  font-family: var(--font-script);
+  color: var(--color-ink-strong);
+  margin: 0 0 var(--space-3);
+}
+
+.comment {
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+  background: rgba(92, 64, 51, 0.15);
+  border-radius: var(--radius);
+}
+
+.comment p { margin: 0; line-height: 1.6; white-space: pre-line; }
+.comment__name { font-family: var(--font-script); font-size: 1.2rem; margin-bottom: 4px !important; }
+.comment__date { font-family: var(--font-display); font-size: 0.85rem; opacity: 0.7; }
+
+.comment-form .form-field textarea { min-height: 120px; }
+.comment-note { padding: var(--space-3); background: rgba(92, 64, 51, 0.2); border-radius: var(--radius); }
+
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.admin__subtitle { font-size: 1.2rem; margin: var(--space-4) 0 var(--space-2); }
+.admin-row__meta a { color: var(--color-accent); }
+
+.btn:disabled { opacity: 0.6; cursor: wait; }
+/* ============ SEARCH ============ */
+.search-form {
+  display: flex;
+  gap: var(--space-2);
+  max-width: 560px;
+  margin: 0 auto var(--space-4);
+}
+
+.search-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px;
+  border-radius: 5px;
+  border: 1px solid #6b5648;
+  background: rgba(252, 251, 247, 0.92);
+  color: var(--color-ink-strong);
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.search-form .btn { border: 0; cursor: pointer; font-family: inherit; }
+
+.search-count {
+  text-align: center;
+  color: var(--color-cream);
+  background: var(--color-title-bg);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  margin: 0 auto var(--space-4);
+  max-width: 560px;
+}

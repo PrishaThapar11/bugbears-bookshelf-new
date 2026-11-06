@@ -6,6 +6,8 @@ import {
   formatDate,
   getParagraphs,
 } from '../../../lib/posts';
+import { getApprovedComments } from '../../../lib/comments';
+import CommentForm from '../../../components/CommentForm';
 
 export const revalidate = 60;
 
@@ -34,6 +36,8 @@ export default async function PostPage({ params }) {
   const post = await getPostBySlug(params.slug);
   if (!post) notFound();
 
+  const comments = await getApprovedComments(post.id);
+
   return (
     <div className="has-bg" style={{ '--bg': `url('${post.cover}')` }}>
       <article className="post">
@@ -47,6 +51,26 @@ export default async function PostPage({ params }) {
             <p key={i}>{para}</p>
           ))}
         </div>
+
+        <section className="comments">
+          <h2>
+            {comments.length === 0
+              ? 'Comments'
+              : `${comments.length} ${comments.length === 1 ? 'comment' : 'comments'}`}
+          </h2>
+
+          {comments.map((c) => (
+            <div key={c.id} className="comment">
+              <p className="comment__name">
+                {c.name} <span className="comment__date">· {formatDate(c.created_at)}</span>
+              </p>
+              <p>{c.body}</p>
+            </div>
+          ))}
+
+          <h3>Leave a comment</h3>
+          <CommentForm postId={post.id} />
+        </section>
 
         <Link href="/blog" className="back-link">← Back to Blogs</Link>
       </article>

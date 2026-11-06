@@ -94,3 +94,48 @@ export async function logout() {
   await supabase.auth.signOut();
   redirect('/login');
 }
+export async function approveComment(id) {
+  const { supabase } = await requireAdmin();
+  const { data, error } = await supabase
+    .from('comments')
+    .update({ approved: true })
+    .eq('id', id)
+    .select('posts(slug)')
+    .maybeSingle();
+  if (error) fail('/admin/comments', error.message);
+
+  const post = Array.isArray(data?.posts) ? data.posts[0] : data?.posts;
+  if (post?.slug) revalidatePath(`/blog/${post.slug}`);
+  redirect('/admin/comments');
+}
+
+export async function unapproveComment(id) {
+  const { supabase } = await requireAdmin();
+  const { data, error } = await supabase
+    .from('comments')
+    .update({ approved: false })
+    .eq('id', id)
+    .select('posts(slug)')
+    .maybeSingle();
+  if (error) fail('/admin/comments', error.message);
+
+  const post = Array.isArray(data?.posts) ? data.posts[0] : data?.posts;
+  if (post?.slug) revalidatePath(`/blog/${post.slug}`);
+  redirect('/admin/comments');
+}
+
+export async function deleteComment(id) {
+  const { supabase } = await requireAdmin();
+  const { data: old } = await supabase
+    .from('comments')
+    .select('posts(slug)')
+    .eq('id', id)
+    .maybeSingle();
+
+  const { error } = await supabase.from('comments').delete().eq('id', id);
+  if (error) fail('/admin/comments', error.message);
+
+  const post = Array.isArray(old?.posts) ? old.posts[0] : old?.posts;
+  if (post?.slug) revalidatePath(`/blog/${post.slug}`);
+  redirect('/admin/comments');
+}
