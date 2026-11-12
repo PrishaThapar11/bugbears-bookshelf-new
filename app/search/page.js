@@ -1,4 +1,4 @@
-import { FaMagnifyingGlass } from 'react-icons/fa6';
+import { FaBookOpen } from 'react-icons/fa6';
 import { searchPosts } from '../../lib/posts';
 import PostCard from '../../components/PostCard';
 import SearchForm from '../../components/SearchForm';
@@ -16,7 +16,7 @@ export default async function SearchPage({ searchParams }) {
     <div className="has-bg" style={{ '--bg': "url('/images/blog-list.jpg')" }}>
       <section className="container">
         <h1 className="page-title">
-          <FaMagnifyingGlass /> Search
+          <FaBookOpen /> Search
         </h1>
 
         <SearchForm defaultValue={q} />

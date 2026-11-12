@@ -1,26 +1,33 @@
-/* ============ TOKENS ============ */
+/* ============ TOKENS: VELVET LIBRARY ============ */
 :root {
-  /* colors (from your current CSS) */
-  --color-nav: #222;
-  --color-accent: #ff9800;
-  --color-btn: #8a4c1a;
-  --color-btn-hover: #3c2d1a;
-  --color-card: rgba(54, 38, 30, 0.8);
-  --color-card-text: #f4f1e1;
-  --color-title-bg: rgba(46, 33, 26, 0.8);
-  --color-paper: rgba(183, 171, 166, 0.92);
-  --color-ink: #3a2c2c;
-  --color-ink-strong: #2e1f1f;
-  --color-cream: #fcfbf7;
+  /* colors */
+  --color-bg: #14090f;           /* near-black plum */
+  --color-nav: #0d0509;
+  --color-accent: #e0457b;       /* hot pink */
+  --color-gold: #c9a35f;         /* antique gold */
+  --color-btn: #c2386a;
+  --color-btn-hover: #8f2650;
+  --color-card: rgba(42, 16, 25, 0.88);   /* deep burgundy */
+  --color-card-text: #f3e6dc;             /* parchment */
+  --color-title-bg: rgba(20, 9, 15, 0.8);
+  --color-paper: rgba(243, 230, 220, 0.95);
+  --color-ink: #3a1f28;
+  --color-ink-strong: #2a1019;
+  --color-cream: #f3e6dc;
   --color-white: #fff;
 
-  /* fonts (the --font-* variables below are set in layout.js) */
-  --font-display: var(--font-playfair), serif;
-  --font-logo: var(--font-homemade), cursive;
-  --font-script: var(--font-satisfy), cursive;
-  --font-hand: var(--font-badscript), cursive;
-  --font-title: var(--font-dancing), cursive;
-  --font-nav: 'Playwrite IN', serif;
+  /* the three fonts (the --font-* variables they use are set in layout.js) */
+  --font-body: var(--font-ebgaramond), Georgia, serif;
+  --font-heading: var(--font-cormorant), Georgia, serif;
+  --font-signature: var(--font-homemade), cursive;
+
+  /* old names now point at the three fonts, so the rest of the CSS keeps working */
+  --font-display: var(--font-body);
+  --font-hand: var(--font-body);
+  --font-script: var(--font-heading);
+  --font-title: var(--font-heading);
+  --font-nav: var(--font-heading);
+  --font-logo: var(--font-signature);
 
   /* spacing + shape */
   --space-1: 0.25rem;
@@ -29,7 +36,7 @@
   --space-4: 1.5rem;
   --space-5: 3rem;
   --radius: 8px;
-  --shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  --shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
   --max-width: 1100px;
 }
 
@@ -41,23 +48,30 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  background: var(--color-bg);
+  color: var(--color-card-text);
 }
 
 main { flex: 1; }
 
 img { max-width: 100%; height: auto; }
 
-/* Full-page background that works on mobile.
-   (background-attachment: fixed is broken on iOS, so we pin a pseudo-element instead.)
+h1, h2, h3 { font-family: var(--font-heading); }
+
+/* Full-page background that works on mobile (fixed attachment is broken on iOS).
+   The dark gradient tints every photo to match the palette.
    Usage: <div className="has-bg" style={{ '--bg': "url('/images/x.jpg')" }}> */
 .has-bg::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: var(--bg) center / cover no-repeat;
-  background-color: #333;
+  background:
+    linear-gradient(rgba(20, 9, 15, 0.55), rgba(20, 9, 15, 0.8)),
+    var(--bg) center / cover no-repeat;
+  background-color: var(--color-bg);
 }
 
 .container {
@@ -499,3 +513,129 @@ img { max-width: 100%; height: auto; }
   margin: 0 auto var(--space-4);
   max-width: 560px;
 }
+/* ============ VELVET LIBRARY OVERRIDES ============ */
+.site-header { background: var(--color-nav); border-bottom: 1px solid rgba(201, 163, 95, 0.3); }
+.nav-link { font-size: 1.4rem; font-weight: 500; letter-spacing: 0.02em; }
+.logo { color: var(--color-cream); }
+
+.site-footer {
+  background: var(--color-nav);
+  color: var(--color-card-text);
+  border-top: 1px solid rgba(201, 163, 95, 0.3);
+  font-size: 1.25rem;
+}
+
+.hero h1 { font-family: var(--font-heading); font-weight: 600; font-size: clamp(2.4rem, 7vw, 3.6rem); }
+.hero__tagline { font-family: var(--font-heading); font-style: italic; }
+
+.featured {
+  background: rgba(20, 9, 15, 0.75);
+  border: 1px solid rgba(201, 163, 95, 0.4);
+}
+.featured h2 { color: var(--color-gold); font-weight: 600; text-decoration: none; }
+.featured p { font-size: clamp(1.1rem, 2.5vw, 1.3rem); font-weight: 400; }
+
+.page-title { border-top: 1px solid rgba(201, 163, 95, 0.35); border-bottom: 1px solid rgba(201, 163, 95, 0.35); }
+
+.post-card { border: 1px solid rgba(201, 163, 95, 0.25); }
+.post-card__title { font-family: var(--font-heading); font-weight: 600; color: var(--color-gold); }
+.post-meta { font-style: italic; }
+
+.post h1 { font-weight: 600; font-size: clamp(2rem, 5vw, 3rem); }
+.post .post-meta { background: rgba(224, 69, 123, 0.12); font-style: italic; }
+.post__body p { font-size: clamp(1.15rem, 2.5vw, 1.3rem); line-height: 1.85; }
+.back-link { color: var(--color-btn); font-size: 1.3rem; }
+
+.comments { border-top-color: rgba(42, 16, 25, 0.25); }
+.comment { background: rgba(42, 16, 25, 0.08); }
+
+.contact-card { background: rgba(243, 230, 220, 0.92); }
+.contact-item { background: rgba(42, 16, 25, 0.1); }
+.contact-item:hover { background: rgba(194, 56, 106, 0.25); }
+
+.admin { background: var(--color-bg); }
+.form-field input:not([type='checkbox']),
+.form-field select,
+.form-field textarea {
+  background: var(--color-nav);
+  border-color: rgba(201, 163, 95, 0.35);
+}
+.badge { background: rgba(224, 69, 123, 0.2); color: var(--color-accent); }
+/* ============ TWEAKS ============ */
+.featured {
+  max-width: 520px;
+  padding: var(--space-3) var(--space-4);
+}
+.featured h2 { font-size: clamp(1.25rem, 3vw, 1.7rem); }
+.featured p { font-size: clamp(1rem, 2.2vw, 1.15rem); }
+
+/* ============ Fix 2: readable post metadata ============ */
+.post .post-meta {
+  color: var(--color-ink);
+  background: rgba(42, 16, 25, 0.1);
+  font-size: 1.05rem;
+}
+/* ============ ROUND 2 TWEAKS ============ */
+
+/* Featured card: slightly bigger than before (was 520px) */
+.featured {
+  max-width: 580px;
+  padding: var(--space-4) calc(var(--space-4) + 0.25rem);
+}
+.featured h2 { font-size: clamp(1.35rem, 3.2vw, 1.85rem); }
+.featured p { font-size: clamp(1.05rem, 2.3vw, 1.22rem); }
+
+/* Page titles: icons get breathing room and the accent pink */
+.page-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6em;
+}
+.page-title svg {
+  width: 0.75em;
+  height: 0.75em;
+  color: var(--color-accent);
+}
+
+/* Post pages: a little pink */
+.post {
+  background: linear-gradient(180deg, rgba(243, 230, 220, 0.96), rgba(242, 218, 226, 0.96));
+  border-top: 3px solid var(--color-accent);
+  box-shadow: 0 0 0 1px rgba(224, 69, 123, 0.2), 0 12px 40px rgba(224, 69, 123, 0.15);
+}
+
+.post h1 { color: #4a1230; }
+
+.post h1::after {
+  content: '';
+  display: block;
+  width: 90px;
+  height: 2px;
+  margin: 0.7rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+}
+
+.post .post-meta {
+  color: #7a1f45;
+  background: rgba(224, 69, 123, 0.14);
+  border: 1px solid rgba(224, 69, 123, 0.3);
+}
+
+/* Pink drop cap on the first paragraph */
+.post__body p:first-child::first-letter {
+  font-family: var(--font-heading);
+  font-size: 3.4em;
+  font-weight: 600;
+  float: left;
+  line-height: 0.8;
+  padding: 0.08em 0.1em 0 0;
+  color: var(--color-accent);
+}
+
+.comments h2,
+.comments h3 { color: #7a1f45; }
+.comment { border-left: 3px solid var(--color-accent); }
+
+::selection { background: rgba(224, 69, 123, 0.35); }
