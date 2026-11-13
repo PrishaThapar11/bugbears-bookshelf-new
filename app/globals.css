@@ -955,3 +955,33 @@ h1, h2, h3 { font-family: var(--font-heading); }
   .flatbook .post-card { border-radius: 0 10px 10px 0; }
   .flatbook::after { left: 28px; right: 10px; }
 }
+/* ============ SOUND TOGGLE ============ */
+.nav-list { margin-left: auto; margin-right: var(--space-3); }
+
+.nav-tools { display: flex; align-items: center; gap: var(--space-2); }
+
+.sound-toggle {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 163, 95, 0.4);
+  background: none;
+  color: var(--color-cream);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sound-toggle:hover { color: var(--color-accent); border-color: var(--color-accent); }
+
+.sound-toggle[aria-pressed='true'] {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 10px rgba(224, 69, 123, 0.4);
+}
+
+@media (max-width: 768px) {
+  .nav-list { margin: 0; }
+}

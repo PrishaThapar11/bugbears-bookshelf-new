@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Atmosphere from '../components/Atmosphere';
 import PageTurn from '../components/PageTurn';
+import SoundProvider from '../components/SoundProvider';
 import { SITE_URL, SITE_NAME } from '../lib/site';
 
 const cormorant = Cormorant_Garamond({
@@ -69,11 +70,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={fontVars}>
       <body>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <Atmosphere />
-        <PageTurn />
+        <SoundProvider>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+          <Atmosphere />
+          <PageTurn />
+        </SoundProvider>
       </body>
     </html>
   );

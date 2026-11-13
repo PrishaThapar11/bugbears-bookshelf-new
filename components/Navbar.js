@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { FaRegHeart, FaPaw, FaBars, FaXmark } from 'react-icons/fa6';
+import SoundToggle from './SoundToggle';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -26,15 +27,6 @@ export default function Navbar() {
           <FaRegHeart /> Bugbear&apos;s Bookshelf <FaRegHeart /> <FaPaw />
         </Link>
 
-        <button
-          className="menu-button"
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen(!open)}
-        >
-          {open ? <FaXmark /> : <FaBars />}
-        </button>
-
         <ul className={`nav-list ${open ? 'open' : ''}`}>
           {links.map((l) => (
             <li key={l.href}>
@@ -48,6 +40,18 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
+
+        <div className="nav-tools">
+          <SoundToggle />
+          <button
+            className="menu-button"
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <FaXmark /> : <FaBars />}
+          </button>
+        </div>
       </nav>
     </header>
   );

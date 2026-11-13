@@ -2,24 +2,10 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-
-const COVERS = [
-  { a: '#5a1328', b: '#34091a' }, // oxblood
-  { a: '#2f1b45', b: '#190e28' }, // midnight plum
-  { a: '#18403a', b: '#0d2420' }, // bottle green
-  { a: '#4f1233', b: '#2e0a1e' }, // wine
-  { a: '#42301d', b: '#25190d' }, // old leather
-  { a: '#1f2848', b: '#111729' }, // ink blue
-];
+import { coverFor, hash } from '../lib/books';
+import { useSound } from './SoundProvider';
 
 const BOOKS_PER_SHELF = 6;
-
-// Same title always gives the same colour and size, so the shelf never reshuffles
-function hash(str) {
-  let h = 0;
-  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
-  return h;
-}
 
 function chunk(list, size) {
   const rows = [];
@@ -29,7 +15,13 @@ function chunk(list, size) {
 
 export default function BookShelf({ books }) {
   const [active, setActive] = useState(null);
+  const { play } = useSound();
   const shelves = chunk(books, BOOKS_PER_SHELF);
+
+  function pick(book) {
+    setActive(book);
+    play('book-slide');
+  }
 
   return (
     <div className="bookcase">
@@ -38,7 +30,7 @@ export default function BookShelf({ books }) {
           <div className="shelf__books">
             {row.map((book) => {
               const h = hash(book.slug);
-              const cover = COVERS[h % COVERS.length];
+              const cover = coverFor(book.slug);
               const height = 250 + ((h >>> 3) % 70);
               const width = 56 + ((h >>> 7) % 24);
 
@@ -54,9 +46,9 @@ export default function BookShelf({ books }) {
                     '--w': `${width}px`,
                   }}
                   aria-label={`${book.title}, ${book.type}`}
-                  onMouseEnter={() => setActive(book)}
+                  onMouseEnter={() => pick(book)}
                   onMouseLeave={() => setActive(null)}
-                  onFocus={() => setActive(book)}
+                  onFocus={() => pick(book)}
                   onBlur={() => setActive(null)}
                 >
                   <span className="book__band" />

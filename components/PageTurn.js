@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useSound } from './SoundProvider';
 
 export default function PageTurn() {
   const pathname = usePathname();
+  const { play } = useSound();
   const [prev, setPrev] = useState(pathname);
   const [turns, setTurns] = useState(0);
 
@@ -15,6 +17,11 @@ export default function PageTurn() {
   }
 
   const skip = pathname.startsWith('/admin') || pathname === '/login';
+
+  useEffect(() => {
+    if (turns > 0 && !skip) play('page-turn');
+  }, [turns]); // eslint-disable-line react-hooks/exhaustive-deps
+
   if (turns === 0 || skip) return null; // nothing on the very first load
 
   return <div key={turns} className="pageturn" aria-hidden="true" />;
