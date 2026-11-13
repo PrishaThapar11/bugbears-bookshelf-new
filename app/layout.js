@@ -3,6 +3,7 @@ import { Cormorant_Garamond, EB_Garamond, Homemade_Apple } from 'next/font/googl
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Atmosphere from '../components/Atmosphere';
+import PageTurn from '../components/PageTurn';
 import { SITE_URL, SITE_NAME } from '../lib/site';
 
 const cormorant = Cormorant_Garamond({
@@ -72,6 +73,7 @@ export default function RootLayout({ children }) {
         <main>{children}</main>
         <Footer />
         <Atmosphere />
+        <PageTurn />
       </body>
     </html>
   );
