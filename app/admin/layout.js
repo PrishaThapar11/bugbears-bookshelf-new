@@ -26,6 +26,7 @@ export default async function AdminLayout({ children }) {
             <Link href="/admin/comments">
               Comments{count ? ` (${count} in last 3 days)` : ''}
             </Link>
+            <Link href="/admin/reading">Reading</Link>
             <Link href="/">View site</Link>
           </nav>
           <form action={logout}>

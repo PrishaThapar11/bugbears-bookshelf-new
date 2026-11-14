@@ -139,3 +139,44 @@ export async function deleteComment(id) {
   if (post?.slug) revalidatePath(`/blog/${post.slug}`);
   redirect('/admin/comments');
 }
+const READING_STATUSES = ['reading', 'next', 'finished'];
+
+export async function addReading(formData) {
+  const { supabase } = await requireAdmin();
+  const title = text(formData, 'title');
+  const author = text(formData, 'author');
+  const note = text(formData, 'note');
+  const requested = text(formData, 'status');
+  const status = READING_STATUSES.includes(requested) ? requested : 'reading';
+
+  if (!title) fail('/admin/reading', 'A title is required.');
+
+  const { error } = await supabase.from('reading_list').insert({ title, author, note, status });
+  if (error) fail('/admin/reading', error.message);
+
+  revalidatePath('/about');
+  redirect('/admin/reading');
+}
+
+export async function setReadingStatus(id, status) {
+  const { supabase } = await requireAdmin();
+  if (!READING_STATUSES.includes(status)) fail('/admin/reading', 'Unknown status.');
+
+  const { error } = await supabase
+    .from('reading_list')
+    .update({ status, updated_at: new Date().toISOString() })
+    .eq('id', id);
+  if (error) fail('/admin/reading', error.message);
+
+  revalidatePath('/about');
+  redirect('/admin/reading');
+}
+
+export async function deleteReading(id) {
+  const { supabase } = await requireAdmin();
+  const { error } = await supabase.from('reading_list').delete().eq('id', id);
+  if (error) fail('/admin/reading', error.message);
+
+  revalidatePath('/about');
+  redirect('/admin/reading');
+}

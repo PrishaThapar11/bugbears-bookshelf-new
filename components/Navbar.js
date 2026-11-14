@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { FaRegHeart, FaPaw, FaBars, FaXmark } from 'react-icons/fa6';
+import { FaBars, FaXmark } from 'react-icons/fa6';
 import SoundToggle from './SoundToggle';
+import PawEmblem from './PawEmblem';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -24,7 +25,9 @@ export default function Navbar() {
     <header className="site-header">
       <nav className="site-header__inner">
         <Link href="/" className="logo" onClick={() => setOpen(false)}>
-          <FaRegHeart /> Bugbear&apos;s Bookshelf <FaRegHeart /> <FaPaw />
+          <PawEmblem className="logo__emblem" mini decorative />
+          Bugbear&apos;s Bookshelf
+          <PawEmblem className="logo__emblem" mini decorative />
         </Link>
 
         <ul className={`nav-list ${open ? 'open' : ''}`}>
