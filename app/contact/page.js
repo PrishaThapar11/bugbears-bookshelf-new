@@ -1,4 +1,5 @@
 import { FaEnvelope, FaGithub, FaLinkedin } from 'react-icons/fa6';
+import SoundLink from '../../components/SoundLink';
 
 export const metadata = {
   title: 'Contact',
@@ -56,7 +57,7 @@ export default function Contact() {
           </div>
 
           {ENTRIES.map((e) => (
-            <a
+            <SoundLink
               key={e.label}
               role="listitem"
               href={e.href}
@@ -69,7 +70,7 @@ export default function Contact() {
               <span className="libcard__name">
                 {e.icon} {e.label}
               </span>
-            </a>
+            </SoundLink>
           ))}
 
           <div className="libcard__row libcard__row--blank" aria-hidden="true" />
