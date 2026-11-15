@@ -1721,3 +1721,19 @@ a.libcard__row:focus-visible .stamp {
   .tome-turn:disabled { display: none; }   /* only show the button that does something */
   .tome-nav__label { display: none; }
 }
+/* ============ MOBILE FIX: stacked pages alignment ============ */
+@media (max-width: 760px) {
+  .tome__base,
+  .tome__base--left,
+  .tome__base--right,
+  .tome__face {
+    left: 0;
+    right: auto;
+    margin: 0;
+  }
+
+  /* nothing in the book should be able to push the page sideways */
+  .tome { max-width: 100%; }
+  .tome__base,
+  .tome__face { max-width: 100%; }
+}
