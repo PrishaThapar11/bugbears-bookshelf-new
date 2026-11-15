@@ -44,6 +44,7 @@ export const metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: DESCRIPTION,
+  alternates: { types: { 'application/rss+xml': '/feed.xml' } },
   verification: {
     google: 'nGeOhCMagRHqsexnW0MMg4dj-pPvKewzbyfg0OU-qWM',
   },

@@ -17,6 +17,7 @@ export default async function Home() {
     excerpt: p.excerpt,
     date: formatDate(p.published_on),
     featured: featured?.id === p.id,
+    spine_color: p.spine_color ?? null,
   }));
 
   return (

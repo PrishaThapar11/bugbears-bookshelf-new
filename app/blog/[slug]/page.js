@@ -1,14 +1,18 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import {
-  getAllPosts,
-  getPostBySlug,
-  formatDate,
-  getParagraphs,
-} from '../../../lib/posts';
+import { getAllPosts, getPostBySlug, formatDate, readingTime } from '../../../lib/posts';
 import { getApprovedComments } from '../../../lib/comments';
 import CommentForm from '../../../components/CommentForm';
-import { SITE_URL, SITE_NAME, AUTHOR, ogImage, shorten } from '../../../lib/site';
+import Markdown from '../../../components/Markdown';
+import TagList from '../../../components/TagList';
+import {
+  SITE_URL,
+  SITE_NAME,
+  AUTHOR,
+  ogImage,
+  absoluteUrl,
+  shorten,
+} from '../../../lib/site';
 
 export const revalidate = 60;
 
@@ -28,6 +32,7 @@ export async function generateMetadata({ params }) {
   return {
     title: post.title,
     description,
+    keywords: post.tags?.length ? post.tags : undefined,
     alternates: { canonical: url },
     openGraph: {
       type: 'article',
@@ -37,6 +42,7 @@ export async function generateMetadata({ params }) {
       description,
       publishedTime: post.published_on,
       authors: [AUTHOR],
+      tags: post.tags ?? [],
       images: [{ url: image, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
@@ -59,8 +65,9 @@ export default async function PostPage({ params }) {
     '@type': 'BlogPosting',
     headline: post.title,
     description: shorten(post.excerpt),
-    image: `${SITE_URL}${ogImage(post.cover)}`,
+    image: absoluteUrl(ogImage(post.cover)),
     datePublished: post.published_on,
+    keywords: (post.tags ?? []).join(', '),
     author: { '@type': 'Person', name: AUTHOR },
     publisher: { '@type': 'Organization', name: SITE_NAME },
     mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
@@ -78,13 +85,14 @@ export default async function PostPage({ params }) {
       <article className="post">
         <h1>{post.title}</h1>
         <p className="post-meta">
-          {formatDate(post.published_on)} | By {AUTHOR} | Type: {post.type}
+          {formatDate(post.published_on)} | By {AUTHOR} | Type: {post.type} |{' '}
+          {readingTime(post.body)} min read
         </p>
 
+        <TagList tags={post.tags} />
+
         <div className="post__body">
-          {getParagraphs(post.body).map((para, i) => (
-            <p key={i}>{para}</p>
-          ))}
+          <Markdown>{post.body}</Markdown>
         </div>
 
         <section className="comments">

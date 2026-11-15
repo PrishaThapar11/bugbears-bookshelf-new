@@ -30,7 +30,7 @@ export default function BookShelf({ books }) {
           <div className="shelf__books">
             {row.map((book) => {
               const h = hash(book.slug);
-              const cover = coverFor(book.slug);
+              const cover = coverFor(book.slug, book.spine_color);
               const height = 250 + ((h >>> 3) % 70);
               const width = 56 + ((h >>> 7) % 24);
 
