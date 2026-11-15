@@ -1656,3 +1656,68 @@ a.libcard__row:focus-visible .stamp {
   position: relative;
   top: -5px;   /* more negative = higher, e.g. -8px */
 }
+/* ============ MOBILE FIXES ============ */
+
+/* ----- header ----- */
+@media (max-width: 768px) {
+  .site-header__inner { padding: 10px 14px; gap: 10px; }
+
+  .logo {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 0.5rem;
+    font-size: clamp(1.05rem, 5vw, 1.35rem);
+    line-height: 1.2;
+  }
+  .logo__emblem { width: 30px; height: 30px; }
+  .logo .logo__emblem:last-child { display: none; } /* one emblem on phones */
+
+  .nav-tools { flex: 0 0 auto; gap: 8px; }
+
+  /* sound and menu buttons: same size, same round outline */
+  .sound-toggle,
+  .menu-button {
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+  }
+  .menu-button {
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 163, 95, 0.4);
+  }
+}
+
+/* ----- about book ----- */
+@media (max-width: 760px) {
+  .tome {
+    height: auto;                  /* undoes the fixed desktop height */
+    margin-top: var(--space-3);
+    scroll-margin-top: 84px;
+  }
+
+  .pg__inner { padding: 1.4rem 1.25rem 3.2rem; }
+  .pg--l .pg__inner,
+  .pg--r .pg__inner { padding-left: 1.25rem; padding-right: 1.25rem; }
+
+  .titlepage { min-height: 0; padding: 0.2rem 0 0.8rem; }
+  .titlepage__emblem { width: 104px; }
+  .titlepage__title { font-size: 1.5rem; }
+
+  .obtext h1 { font-size: 1.9rem; }
+  .obtext p { font-size: 1.1rem; line-height: 1.55; }
+  .obtext .obsign { font-size: 1.5rem; }
+  .folio { bottom: 10px; }
+
+  /* the turn button floats at the bottom of the screen while you read */
+  .tome-nav {
+    position: sticky;
+    bottom: 14px;
+    z-index: 30;
+    margin: 16px auto 20px;
+  }
+  .tome-turn:disabled { display: none; }   /* only show the button that does something */
+  .tome-nav__label { display: none; }
+}

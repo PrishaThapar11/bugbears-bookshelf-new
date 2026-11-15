@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { useSound } from './SoundProvider';
 
@@ -10,12 +10,25 @@ const hide = (cond) => (cond ? { inert: '', 'aria-hidden': true } : {});
 export default function AboutBook({ titlePage, story, storyMore, reading }) {
   const [flipped, setFlipped] = useState(false);
   const { play } = useSound();
+  const tomeRef = useRef(null);
+  const first = useRef(true);
 
   function turn(to) {
     if (to === flipped) return;
     setFlipped(to);
     play('page-turn');
   }
+
+  // On phones the pages are stacked, so bring the top of the book back into view after a turn
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    if (window.matchMedia('(max-width: 760px)').matches) {
+      tomeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [flipped]);
 
   // Left and right arrow keys turn the page too
   useEffect(() => {
@@ -35,7 +48,7 @@ export default function AboutBook({ titlePage, story, storyMore, reading }) {
 
   return (
     <>
-      <div className="tome" data-flipped={flipped}>
+      <div className="tome" data-flipped={flipped} ref={tomeRef}>
         {/* left page of spread 1: title page */}
         <div className="tome__base tome__base--left pg pg--l" {...hide(flipped)}>
           <div className="pg__inner">{titlePage}</div>
